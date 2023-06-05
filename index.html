@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yourdle</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="./styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Sancreek&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      <link rel="stylesheet" href="./styles.css">
+      <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+  </head>
+
+<body>
+  <div id="container">
+    <div id="game">
+      <header>
+        <div class="header-left">
+          <i class="far fa-question-circle" id="help"></i>
+          <i class="fa fa-cog" id="preferences" aria-hidden="true"></i>
+          <i class="fas fa-chart-bar" id="stats"></i>
+        </div>
+        <div class="header-center">
+          <h1 class="title">YOURDLE</h1>
+        </div>
+        <div class="header-right">
+    <!--      <i class="fa fa-cog" id="reveal-letter" aria-hidden="true"></i>
+          <div class="toggle"><i class="fa fa-volume-up" id="aud-icon"></i></div> -->
+          <i class="fa fa-plus" id="create"></i>
+       <i class="fa fa-volume-up" id="aud-icon"></i>
+          <i class="fa fa-bars" id="categories" aria-hidden="true"></i>
+          <i id="randcat" class="fas fa-search"></i>
+        </div>
+      </header>
+
+      <div id="message-container">
+       
+      </div>  
+      
+      <button id="start">Start Game</button>
+    
+
+
+      <div id="board-container">
+        <div id="board"></div>
+      </div>
+
+      <div id="keyboard-container">
+        <div class="keyboard-row">
+          <button data-key="q">q</button>
+          <button data-key="w">w</button>
+          <button data-key="e">e</button>
+          <button data-key="r">r</button>
+          <button data-key="t">t</button>
+          <button data-key="y">y</button>
+          <button data-key="u">u</button>
+          <button data-key="i">i</button>
+          <button data-key="o">o</button>
+          <button data-key="p">p</button>
+        </div>
+        <div class="keyboard-row">
+          <div class="spacer-half"></div>
+          <button data-key="a">a</button>
+          <button data-key="s">s</button>
+          <button data-key="d">d</button>
+          <button data-key="f">f</button>
+          <button data-key="g">g</button>
+          <button data-key="h">h</button>
+          <button data-key="j">j</button>
+          <button data-key="k">k</button>
+          <button data-key="l">l</button>
+          <div class="spacer-half"></div>
+        </div>
+        <div class="keyboard-row">
+          <button data-key="enter" class="wide-button">Ent</button>
+          <button data-key="z">z</button>
+          <button data-key="x">x</button>
+          <button data-key="c">c</button>
+          <button data-key="v">v</button>
+          <button data-key="b">b</button>
+          <button data-key="n">n</button>
+          <button data-key="m">m</button>
+          <button data-key="del" class="wide-button del-button">Del</button>
+        </div>
+  <!--      <div class="keyboard-row">
+          <div class="spacer-half2"></div>
+          <button data-key="space" class="space-button">Space</button>
+          <div class="spacer-half2"></div>
+        </div> -->
+      </div>
+
+    </div>
+  </div>
+
+  <div id="help-modal" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Help for YOURDLE</h2>
+       <span class="close" id="close-help">&times;</span>
+      </div>
+      <div class="modal-body">
+      </div>
+    </div>
+  </div>
+
+  <div id="view-help-modal" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Welcome to YOURDLE!</h2>
+       <span class="close" id="close-view-help">&times;</span>
+      </div>
+      <div class="modal-body" id="view-help">
+      </div>
+
+  </div>
+  </div>
+
+
+
+
+  <div id="stats-modal" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <span class="info" id="stats-info">i</span>
+        <h2>YOURDLE Stats</h2>
+       <span class="close" id="close-stats">&times;</span>
+      </div>
+
+        <div class="stats-container">
+    
+          <h3><strong>Total Played</strong>: <span id="total-played"></span></h3>
+    
+          <h3><strong>Wins</strong>: <span id="total-wins"></span></h3>
+    
+          <h3><strong>Win %</strong>: <span id="win-pct"></span></h3>
+    
+          <h3>
+            <strong>Current Streak</strong>: <span id="current-streak"></span>
+          </h3>
+              
+          <h4>
+            <strong>Max Streak</strong>: <span id="max-streak"></span>
+          </h4>
+        </div>
+
+        <div class="results">
+             <h3><strong>HISTORY</strong> <span class="delete" id="delete-stats">&times;</span></h3>
+             
+              <hr>
+              <hr>
+              <div id="results-tray">
+              </div>  <!-- end of results tray -->
+        </div>
+
+    </div>
+  </div>
+
+  <div id="categories-modal" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Click to toggle Categories</h2>
+       <span class="close" id="close-categories">&times;</span>
+      </div>
+      <div class="modal-body" id="categories-body">
+      </div>
+    </div>
+  </div>
+
+  <div id="delete-modal" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Delete All History?</h2>
+       <span class="close" id="close-delete">&times;</span>
+      </div>
+      <div class="modal-body" id="delete-body">
+        <h2> <span id="yes">Yes</span> <span id="no">No</span></h2>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="preferences-modal" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Preferences</h2>
+       <span class="close" id="close-preferences">&times;</span>
+      </div>
+      <div class="modal-body" id="preferences-body">
+        <h5>Choose Background</h5>
+        <section id="backgrounds">
+          <div id="random-bg-container">
+            <img class="mini-img">
+            <img class="mini-img">
+            <img class="mini-img">
+            <img class="mini-img">
+            <img class="mini-img">
+            <img class="mini-img">
+          </div>
+          <div id="one-bg-container">
+            <img class="maxi-img">
+            <img class="maxi-img">
+            <img class="maxi-img">
+            <img class="maxi-img">
+            <img class="maxi-img">
+            <img class="maxi-img">
+          </div>
+        </section>
+        <textarea placeholder="You can copy a link to an internet image from a site like pexels or unsplash, or a link obtained after a Google image search then paste it into this field."></textarea> 
+        <hr></hr>
+
+        <h5>Select Audio</h5>
+        <div id="audios-body">
+          
+        </div>
+        <hr></hr>
+        <p id="chameleon">
+          Chameleon Mode
+        </p>
+        <hr></hr>
+        <p id="validate">
+          Validate words
+        </p>
+
+    <!--    <img src="./construction.jpg" alt="" width=200 height=200> -->
+      </div>
+      
+      <div class="portrait-modal-body" id="portrait-preferences-body">
+        <h5>Choose Background</h5>
+        <section id="portrait-backgrounds">
+          <div id="portrait-random-bg-container">
+            <img class="mini-img" src="https://images.pexels.com/photos/33109/fall-autumn-red-season.jpg?auto=compress&cs=tinysrgb&w=1600">
+            <img class="mini-img"src="https://cdn.pixabay.com/photo/2021/01/09/20/23/road-5903402__340.jpg">
+            <img class="mini-img"src="https://images.pexels.com/photos/221502/pexels-photo-221502.jpeg?auto=compress&cs=tinysrgb&w=1600">
+            <img class="mini-img"src="https://images.pexels.com/photos/302743/pexels-photo-302743.jpeg?auto=compress&cs=tinysrgb&w=1600">
+            <img class="mini-img"src="https://images.unsplash.com/photo-1566155119454-2b581dd44c59?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NDZ8fHNwcmluZ3xlbnwwfDB8MHx8&auto=format&fit=crop&w=500&q=60">
+            <img class="mini-img"src="https://cdn.pixabay.com/photo/2017/08/31/11/35/alps-2700403_960_720.jpg">
+          </div>
+          <div id="portrait-one-bg-container">
+            <img class="maxi-img"src="https://images.pexels.com/photos/33109/fall-autumn-red-season.jpg?auto=compress&cs=tinysrgb&w=1600">
+            <img class="maxi-img"src="https://cdn.pixabay.com/photo/2021/01/09/20/23/road-5903402__340.jpg">
+            <img class="maxi-img"src="https://images.pexels.com/photos/221502/pexels-photo-221502.jpeg?auto=compress&cs=tinysrgb&w=1600">
+            <img class="maxi-img"src="https://images.pexels.com/photos/302743/pexels-photo-302743.jpeg?auto=compress&cs=tinysrgb&w=1600">
+            <img class="maxi-img"src="https://images.unsplash.com/photo-1566155119454-2b581dd44c59?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NDZ8fHNwcmluZ3xlbnwwfDB8MHx8&auto=format&fit=crop&w=500&q=60">
+            <img class="maxi-img"src="https://cdn.pixabay.com/photo/2017/08/31/11/35/alps-2700403_960_720.jpg">
+          </div>
+        </section>
+        <textarea placeholder="You can copy a link to an internet image from a site like pexels or unsplash, or a link obtained after a Google image search, paste it into this field, then press enter."></textarea>
+    <!--    <img src="./construction.jpg" alt="" width=200 height=200> -->
+      </div>
+
+
+    </div>
+  </div>
+
+  <div id="create-modal" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <span class="info" id="create-info">i</span>
+        <h2>YOURDLE</h2>
+       <span class="close" id="close-create">&times;</span>
+      </div>
+
+        <div class="create-container">
+    
+          <h3><strong>New Category</strong>: <span id="new-category"></span></h3>
+    
+         </div>
+
+        <div class="creates">
+              <hr>
+              <div id="create-tray">
+              </div>  <!-- end of create tray -->
+        </div>
+
+    </div>
+  </div>
+
+  
+  <section id="create-yours" class="hidden">
+
+
+    <div id="form-input"> 
+      <select id="selectOccasion" onchange="occSelected()">
+        <option>Select Occasion to Delete</option>
+      </select>
+      <div id="custom1">
+      <label for="custom"><h5>
+        Name of Your Category:
+      </h5></label>
+      <input type="text" id="custom" name="custom" maxlength="25" placeholder="Your Category Name"> 
+    </div>
+      <hr></hr>
+    </div> 
+
+
+    <textarea id="create-items" placeholder="Type in a comma separated list of items to include in your category. Each item you enter must be either an alpha character or a space. The comma must immediately follow the last letter of your item and be itself be immediately followed by the first letter of your next item."></textarea> 
+
+
+    <div id="button-collection">
+      <button id="add-btn">Add</button>
+      <button id="del-btn">Delete</button>
+      <button id="sub-btn">Submit</button>
+      <button id="cancel-btn">Cancel</button>
+    </div>
+  
+  </section>
+
+
+
+
+
+
+
+</body>
+
+  
+  <script src="./main.js"></script>
+</body>
+</html>

@@ -34,11 +34,12 @@ const audios=[ {name: "default",
               }
              ]
 
-let helpText = `YOURDLE accepts comma delimited input that YOU provide and turns it into YOUR own personal Wordle game. Start the process by clicking the "+" on the top menu. Type in a Category name that describes your items. Then go to the large input field and begin typing each item. Letters and spaces up to a max of 35 are the only valid characters. A comma indicates the end of your item and must immediately be followed by your next item, no space after the comma. Your last item should not be followed by a comma. Another method to input your items is to first create the comma seperated items in a text editor such as Notepad, copy all the items, and then paste them into the input field. You can then share that file with friends. Once all your input has been entered, select the submit button. A window will then display all of the items you just entered along with the length of each. Select the "+" menu item again to add another category. Once you have added all that you wish, refresh the page. Your categories will now be avaiable to you to choose. 
+let helpText = `YOURDLE accepts comma delimited input that YOU provide and turns it into YOUR own personal Wordle game. Start the process by clicking the "+" on the top menu. Type in a Category name that describes your items. Then go to the large input field and begin typing each item. Letters and spaces up to a max of 35 are the only valid characters. A comma indicates the end of your item and can then be followed by your next item. Your last item should not be followed by a comma. Another method for inputting your items is to first create the comma seperated items in a text editor such as Notepad, copy all the items, and then paste them into the input field. You can then share that file with friends. Once all your input has been entered, select the submit button. A window will then display all of the items you just entered along with the length of each. Select the "+" menu item again to add another category. Once you have added all that you wish, refresh the page. Your categories will now be avaiable for you to choose. 
 NOTE - The items that you create are stored within an area specific to your device and browser. If you create items while in Firefox, those will not be available in Chrome. If you create the items on your desktop, your mobile device will not be aware of them. Sharing them across browsers and devices becomes easy if you create your items in a text editor. If you dont have access to a text editor on your mobile device, you can copy then paste the items into an email that you mail to yourself.              
 `
 
-let viewHelpText = `Welcome to YOURDLE! Create your own Wordle universe with words that you choose! Graduating? Create a list of your fellow grads, paste them into this site, then have fun uncovering their names in Wordle type play. Create the list in a simple app like Notepad and share the list with friends. Do the same with a list of guests at an anniverary or wedding party. If a teacher, why not set up a list of vocabulary words for your students to learn. Please read the help(?) for detailed info on how to create and save such lists.`
+let viewHelpText = `Welcome to YOURDLE! Create your own Wordle universe with words that you choose! 
+Graduating? Create a list of your fellow grads, paste them into this site, then have fun uncovering their names in Wordle type play. Create the list in a simple app like Notepad and share the list with friends. Do the same with a list of guests at an anniverary or wedding party. If a teacher, why not set up a list of vocabulary words for your students to learn. Please read the help(?) for detailed info on how to create and save such lists.`
 let sound = true;
 let soundPlayer = "";
 let randomAudioIdx = Math.floor(Math.random()*audios.length)
@@ -622,7 +623,7 @@ const DICTIONARY_API_BASE_URL =
         //  removeKeyboardListeners();
          return;
         } // END OF CORRECT WORD LOGIC
-    
+        console.log("guessed words length = " + guessedWords.length + " num of guesses = " + numofGuesses)
         if (guessedWords.length ===  numofGuesses && guessedWord !== wordle) {
           resultObj.guesses = 10;
           let resultsArrayTemp = JSON.parse(window.localStorage.getItem('resultsY'));
@@ -858,7 +859,7 @@ if (!validate){
   //  removeKeyboardListeners();
    return;
   } // END OF CORRECT WORD LOGIC
-
+  console.log("guessed words length = " + guessedWords.length + " num of guesses = " + numofGuesses)
   if (guessedWords.length ===  numofGuesses && guessedWord !== wordle) {
     resultObj.guesses = 10;
     let resultsArrayTemp = JSON.parse(window.localStorage.getItem('resultsY'));
@@ -2086,6 +2087,21 @@ function initCategories(){
     protoWordsArray[i].numOfItems = workcount;
     console.log("items for array " + protoWordsArray[i].cat + " equals " + workcount)
   } 
+
+  // Added 6/6/23
+    let selectEl = document.getElementById("selectCategory");
+    selectEl.classList.remove("hidden");
+    selectEl.innerHTML = ""
+    let el = document.createElement("option");
+    el.textContent = "Select Category to Delete";
+    selectEl.appendChild(el);
+    for(i = 0; i < protoWordsArray.length; i++) {
+      let opt = protoWordsArray[i].cat;
+      let el = document.createElement("option");
+      el.textContent = opt;
+      el.value = i;
+      selectEl.appendChild(el);
+      }
 }
 
 function preserveGameState(){
@@ -2120,7 +2136,7 @@ function loadLocalStorage(){
   guessedWordCount = Number(window.localStorage.getItem('guessedWordCountY')) || guessedWordCount
   availableSpace = Number(window.localStorage.getItem('availableSpaceY')) || availableSpace
   console.log("available space = " + availableSpace)
-  guessedWords = JSON.parse(window.localStorage.getItem('guessedWordsL')) || guessedWords
+  guessedWords = JSON.parse(window.localStorage.getItem('guessedWordsY')) || guessedWords
   
 
   const storedBoardContainer = window.localStorage.getItem("boardContainerY");
@@ -2322,23 +2338,35 @@ function initCreateModal() {
     // When the user clicks on the submit button, attempt to create a category
     submitEl.addEventListener("click", function () {
 
-protoWordsArray.length = 0;
-// Retrieve the JSON string
-const userStr = localStorage.getItem('catObjectY');
-console.log("userStr = " + userStr)
-if (userStr){
-  // Parse JSON string to object
-  const userArr = JSON.parse(userStr);
-  
-  console.log(userArr); 
-  console.log(userArr[0].cat); 
-  console.log(userArr[0].items[0]); 
- // protoWordsArray.push(userObj);
- for (i=0; i<userArr.length; i++){
-  protoWordsArray.push(userArr[i]);
+      let yourCategoryEl = document.getElementById("custom")
+      messageContainerEl.innerText = ("");
+      if (yourCategoryEl.value === ""){
+        messageContainerEl.innerText = (`Please enter a Category Name`);
+        return;
+      }
+      if (textAreaEl.value === ""){
+        messageContainerEl.innerText = messageContainerEl.innerText + " Please enter some items";
+        return;
+      }
+     
 
- }
-}
+      
+      protoWordsArray.length = 0;
+      // Retrieve the JSON string
+      const userStr = localStorage.getItem('catObjectY');
+      console.log("userStr = " + userStr)
+      if (userStr){
+        // Parse JSON string to object
+        const userArr = JSON.parse(userStr);
+        
+        console.log(userArr); 
+        console.log(userArr[0].cat); 
+        console.log(userArr[0].items[0]); 
+      // protoWordsArray.push(userObj);
+      for (i=0; i<userArr.length; i++){
+        protoWordsArray.push(userArr[i]);
+      }
+      }
 
 
 
@@ -2346,7 +2374,7 @@ if (userStr){
 
       let createdInfoEl = document.getElementById("create-modal")
       let newCategoryEl = document.getElementById("new-category")
-      let yourCategoryEl = document.getElementById("custom")
+     
       let str = textAreaEl.value.toUpperCase();
       let createdArray = str.split(',');
       newCategoryEl.innerText = yourCategoryEl.value.toUpperCase();
@@ -2360,9 +2388,10 @@ if (userStr){
     console.log("category = " + customEl.value.toUpperCase())
     for(var i = 0; i < createdArray.length; i++)
     {
-      createdArray[i].toUpperCase
-      createObj.items.push(createdArray[i]);
-       console.log("item " + i + " = " + createdArray[i]);
+      let trimmedString = createdArray[i].trim()
+      trimmedString.toUpperCase
+      createObj.items.push(trimmedString);
+       console.log("item " + i + " = " + trimmedString);
 
 
 
@@ -2372,10 +2401,10 @@ if (userStr){
       console.log("trying to create elements in tray")
       // create a div for each word and word length and append them
       createItemEl = document.createElement('div')
-      createItemEl.innerText = createdArray[i]
+      createItemEl.innerText = trimmedString
       createTrayEl.appendChild(createItemEl)
       createItemEl = document.createElement('div')
-      createItemEl.innerText = createdArray[i].length
+      createItemEl.innerText = trimmedString.length
       createTrayEl.appendChild(createItemEl)
 
 
@@ -2385,7 +2414,7 @@ if (userStr){
     console.log(createObj) 
     protoWordsArray.push(createObj);
     for(i=0; i<protoWordsArray.length; i++){
-    console.log("array " + i + " = " + protoWordsArray[i].cat)
+      console.log("array " + i + " = " + protoWordsArray[i].cat)
     } 
 
 
@@ -2399,9 +2428,55 @@ if (userStr){
     cancelEl.addEventListener("click", function () {
       modal.classList.toggle("hidden")
     });
+}  // END OF INITCREATEMODAL
+
+
+
+  function catSelected(){
+    let catSelectedEl = document.getElementById("selectCategory")
+    console.log("Category selected = " + catSelectedEl.value);
+    displayItemsToDelete(catSelectedEl.value);
+  }
+   
+
+
+
+// Added June 6, 2023
+function displayItemsToDelete(itemToDel) {
+
+  let yourCategoryEl = document.getElementById("custom")
+  const createsEl = document.querySelector(".creates")
+
+  console.log("display item " + protoWordsArray[itemToDel].cat + " items prior to delete")
+
+
+  messageContainerEl.innerText = ("");
   
+ 
+
+  let createdInfoEl = document.getElementById("create-modal")
+  let newCategoryEl = document.getElementById("new-category")
+ 
+  newCategoryEl.innerText = protoWordsArray[itemToDel].cat
+  createdInfoEl.style.display = "block"
+
+  const createTrayEl = document.getElementById("create-tray")
+  createTrayEl.innerText = "";
+  
+for(var i = 0; i <  protoWordsArray[itemToDel].items.length; i++)
+{
+
+  console.log("trying to create elements in tray")
+  // create a div for each word and word length and append them
+  createItemEl = document.createElement('div')
+  createItemEl.innerText = protoWordsArray[itemToDel].items[i]
+  createTrayEl.appendChild(createItemEl)
+  createItemEl = document.createElement('div')
+  createItemEl.innerText = protoWordsArray[itemToDel].items[i].length
+  createTrayEl.appendChild(createItemEl)
 
 
 }
 
-
+createsEl.style.display = "block";
+}

@@ -268,14 +268,13 @@
     <!-- Modal content -->
     <div class="modal-content">
       <div class="modal-header">
-        <span class="info" id="create-info">i</span>
         <h2>YOURDLE</h2>
        <span class="close" id="close-create">&times;</span>
       </div>
 
         <div class="create-container">
     
-          <h3><strong>New Category</strong>: <span id="new-category"></span></h3>
+          <h3><strong>Category</strong>: <span id="new-category"></span></h3>
     
          </div>
 
@@ -293,8 +292,8 @@
 
 
     <div id="form-input"> 
-      <select id="selectOccasion" onchange="occSelected()">
-        <option>Select Occasion to Delete</option>
+      <select id="selectCategory" onchange="catSelected()">
+        <option>Select Category to Delete</option>
       </select>
       <div id="custom1">
       <label for="custom"><h5>
@@ -306,7 +305,7 @@
     </div> 
 
 
-    <textarea id="create-items" placeholder="Type in a comma separated list of items to include in your category. Each item you enter must be either an alpha character or a space. The comma must immediately follow the last letter of your item and be itself be immediately followed by the first letter of your next item."></textarea> 
+    <textarea id="create-items" placeholder="Type in or paste in, a comma separated list of items to include in your category. Each item you enter must be either an alpha character or a space."></textarea> 
 
 
     <div id="button-collection">

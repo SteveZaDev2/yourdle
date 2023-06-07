@@ -852,3 +852,18 @@ textarea {
   font-weight: bold;
   font-family: 'Times New Roman', Times, serif;
 }
+
+
+#form-input{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#button-collection{
+  margin: 0;
+  position: absolute;
+  left: 50%;
+  -ms-transform: translatex(-50%);
+  transform: translatex(-50%);
+}

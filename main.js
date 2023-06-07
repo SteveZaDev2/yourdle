@@ -34,11 +34,11 @@ const audios=[ {name: "default",
               }
              ]
 
-let helpText = `YOURDLE accepts comma delimited input that YOU provide and turns it into YOUR own personal Wordle game. Start the process by clicking the "+" on the top menu. Type in a Category name that describes your items. Then go to the large input field and begin typing each item. Letters and spaces up to a max of 35 are the only valid characters. A comma indicates the end of your item and can then be followed by your next item. Your last item should not be followed by a comma. Another method for inputting your items is to first create the comma seperated items in a text editor such as Notepad, copy all the items, and then paste them into the input field. You can then share that file with friends. Once all your input has been entered, select the submit button. A window will then display all of the items you just entered along with the length of each. Select the "+" menu item again to add another category. Once you have added all that you wish, refresh the page. Your categories will now be avaiable for you to choose. 
-NOTE - The items that you create are stored within an area specific to your device and browser. If you create items while in Firefox, those will not be available in Chrome. If you create the items on your desktop, your mobile device will not be aware of them. Sharing them across browsers and devices becomes easy if you create your items in a text editor. If you dont have access to a text editor on your mobile device, you can copy then paste the items into an email that you mail to yourself.              
+let helpText = `YOURDLE accepts comma delimited input that YOU provide and turns it into YOUR own personal Wordle game. Start the process by clicking the "+" on the top menu. Type in a Category name that describes your items. Then go to the large input field and begin typing each item. Letters and spaces up to a max of 35 are the only valid characters. A comma indicates the end of your item and can then be followed by your next item. Your last item should not be followed by a comma. Press "Submit" and a window will display all of the items you are about to add. If things look good, click "Add the Category". Your category will be created. You can also click the "-" item on the top menu and then select a category to remove.              
 `
 
-let viewHelpText = `Welcome to YOURDLE! Create your own Wordle universe with words that you choose! 
+let viewHelpText = `Welcome to YOURDLE! Create your own Wordle universe with words that you choose!
+<br> 
 Graduating? Create a list of your fellow grads, paste them into this site, then have fun uncovering their names in Wordle type play. Create the list in a simple app like Notepad and share the list with friends. Do the same with a list of guests at an anniverary or wedding party. If a teacher, why not set up a list of vocabulary words for your students to learn. Please read the help(?) for detailed info on how to create and save such lists.`
 let sound = true;
 let soundPlayer = "";
@@ -128,6 +128,8 @@ let createObj = {
   numOfItems: 0,
   items: []
   }
+
+  let globalItemToDel = 0;
 
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -2089,7 +2091,7 @@ function initCategories(){
   } 
 
   // Added 6/6/23
-    let selectEl = document.getElementById("selectCategory");
+    let selectEl = document.getElementById("select-category");
     selectEl.classList.remove("hidden");
     selectEl.innerHTML = ""
     let el = document.createElement("option");
@@ -2122,7 +2124,7 @@ function loadLocalStorage(){
   wordle =window.localStorage.getItem("wordleY");
   if (kContainer){
     calcLettersandGuesses();
-    messageContainerEl.innerText = "Last Wordlength game was interrupted - continue at point it was lost";
+    messageContainerEl.innerText = "Last Yourdle game was interrupted - continue at point it was lost";
     atLeastOneGuessMade = true;
     setTimeout(function(){
   }, 4500);
@@ -2292,65 +2294,83 @@ console.log("about to lock orientation")
 
 
 
-
-
-  
-
 function initCreateModal() {
   const modal = document.getElementById("create-yours");
   const modal2 = document.getElementById("create-modal");
   // Get the button that opens the stats modal
   const createBtn = document.getElementById("create");
+  const deleteBtn = document.getElementById("delete-category");
 
   const cancelEl = document.getElementById("cancel-btn");
   const submitEl = document.getElementById("sub-btn");
+  const addEl = document.getElementById("add-btn");
+  const confirmDeleteEl = document.getElementById("del-btn");
+
   const textAreaEl = document.getElementById("create-items");
-  const createCloseEl = document.getElementById("close-create");
+  const createDelCloseEl = document.getElementById("close-create-del");
   let customEl = document.getElementById("custom");
   const createsEl = document.querySelector(".creates")
+  const categoryLabelEl = document.getElementById("category-label")
+  let selectCategoryEl = document.getElementById("select-category");
+  let subButtonEl = document.getElementById("sub-btn");
 
 
 
-  // When the user clicks on the button, open the modal
+
+  // When the user clicks on the create button, open the modal
   createBtn.addEventListener("click", function () {
     console.log("just clicked on create button")
+    textAreaEl.value = ""
+    customEl.value = ""
     modal.classList.toggle("hidden")
-  });
+    selectCategoryEl.style.display = "none"
+    categoryLabelEl.style.display = "block"
+    customEl.style.display = "block"
+    textAreaEl.style.display = "block"
+    subButtonEl.style.display = "inline"
+   });
 
-    // When the user clicks on the button, open the modal
-    createCloseEl.addEventListener("click", function () {
-      console.log("just clicked on create close button")
-      modal2.style.display = "none"
-    });
-   
 
 /*
-    let createObj = {
-      cat: "Testing",
-      sel: false,
-      parent: "",
-      numOfItems: 0,
-      items: []
-      }
+      <label for="custom" id="category-label"><h5>
+        Name of Your Category:
+      </h5></label>
+      <input type="text" id="custom" name="custom" maxlength="25" placeholder="Your Category Name"> 
+    </div>
+    <select id="selectCategory" onchange="catSelected()">
+
+
 */
+  
+
+  // When the user clicks on the del button, open the modal
+  deleteBtn.addEventListener("click", function () {
+    console.log("just clicked on delete button")
+    modal.classList.toggle("hidden")
+    addEl.style.display = "none"
+    confirmDeleteEl.style.display = "block"
+    selectCategoryEl.style.display = "block"
+    categoryLabelEl.style.display = "none"
+    customEl.style.display = "none"
+    subButtonEl.style.display = "none"
+    textAreaEl.style.display = "none"
+  });
 
 
-    // When the user clicks on the submit button, attempt to create a category
-    submitEl.addEventListener("click", function () {
+    // When the user clicks on the button close the modal
+    createDelCloseEl.addEventListener("click", function () {
+      console.log("just clicked on create del close button")
+      modal2.style.display = "none"
+    });
 
-      let yourCategoryEl = document.getElementById("custom")
-      messageContainerEl.innerText = ("");
-      if (yourCategoryEl.value === ""){
-        messageContainerEl.innerText = (`Please enter a Category Name`);
-        return;
-      }
-      if (textAreaEl.value === ""){
-        messageContainerEl.innerText = messageContainerEl.innerText + " Please enter some items";
-        return;
-      }
+    // When the user clicks on the add button add the object to the word array
+    addEl.addEventListener("click", function () {
+      console.log("just clicked on add button")
+      console.log("createobj for cat = " + createObj.cat)
      
-
+      // grab the array of current categories from local storage, add this one to it then write back out to local
       
+            /* as of June 7 execute this code upon add confirmation */
       protoWordsArray.length = 0;
       // Retrieve the JSON string
       const userStr = localStorage.getItem('catObjectY');
@@ -2367,7 +2387,89 @@ function initCreateModal() {
         protoWordsArray.push(userArr[i]);
       }
       }
+      protoWordsArray.push(createObj);
+      window.localStorage.setItem("catObjectY", JSON.stringify(protoWordsArray));
+      modal2.style.display = "none"
+      // Figure out a way to update categories modal so that the new one is available without having
+      // to refresh site
+      window.location.reload();
 
+
+      
+
+    });
+
+
+
+    // When the user clicks on the del button delete from the word array
+    confirmDeleteEl.addEventListener("click", function () {
+      console.log("just clicked on del button length of protowWrdsArray = " + protoWordsArray.length)
+      protoWordsArray.splice(globalItemToDel, 1)
+      console.log("just removed from array  length of protowWrdsArray now = " + protoWordsArray.length)
+      // then must update localstorage and also remove preferences in local storage since item exists no more  
+      localStorage.removeItem("categoryPreferencesY")
+      if (protoWordsArray.length === 0){
+        localStorage.removeItem("catObjectY")
+      } else{
+        window.localStorage.setItem("catObjectY", JSON.stringify(protoWordsArray));
+      }
+      window.location.reload();
+      // grab the array of current categories from local storage, add this one to it then write back out to local 
+    });
+
+
+/*
+    let createObj = {
+      cat: "Testing",
+      sel: false,
+      parent: "",
+      numOfItems: 0,
+      items: []
+      }
+*/
+
+
+    // When the user clicks on the submit button, populate the modal with the info along with a buttom to pressed if // the user is ok with it and wants to add the category  
+    submitEl.addEventListener("click", function () {
+
+      let yourCategoryEl = document.getElementById("custom")
+      messageContainerEl.innerText = ("");
+      if (yourCategoryEl.value === ""){
+        messageContainerEl.innerText = (`Please enter a Category Name`);
+        return;
+      }
+      if (textAreaEl.value === ""){
+        messageContainerEl.innerText = messageContainerEl.innerText + " Please enter some items";
+        return;
+      }
+     
+
+      modal.classList.toggle("hidden")
+      addEl.style.display = "block"
+      confirmDeleteEl.style.display = "none"
+ 
+
+
+
+      /* as of June 7 execute this code upon add confirmation
+      protoWordsArray.length = 0;
+      // Retrieve the JSON string
+      const userStr = localStorage.getItem('catObjectY');
+      console.log("is this pinned?)
+      console.log("userStr = " + userStr)
+      if (userStr){
+        // Parse JSON string to object
+        const userArr = JSON.parse(userStr);
+        
+        console.log(userArr); 
+        console.log(userArr[0].cat); 
+        console.log(userArr[0].items[0]); 
+      // protoWordsArray.push(userObj);
+      for (i=0; i<userArr.length; i++){
+        protoWordsArray.push(userArr[i]);
+      }
+      }
+      */
 
 
 
@@ -2386,8 +2488,12 @@ function initCreateModal() {
       createTrayEl.innerText = "";
       
     console.log("category = " + customEl.value.toUpperCase())
+    if (createdArray[createdArray.length-1] === ""){
+      createdArray.pop();
+    }
     for(var i = 0; i < createdArray.length; i++)
     {
+
       let trimmedString = createdArray[i].trim()
       trimmedString.toUpperCase
       createObj.items.push(trimmedString);
@@ -2412,7 +2518,7 @@ function initCreateModal() {
 
     createsEl.style.display = "block";
     console.log(createObj) 
-    protoWordsArray.push(createObj);
+    //protoWordsArray.push(createObj);
     for(i=0; i<protoWordsArray.length; i++){
       console.log("array " + i + " = " + protoWordsArray[i].cat)
     } 
@@ -2420,7 +2526,7 @@ function initCreateModal() {
 
 
    // window.localStorage.setItem("catObjectY", JSON.stringify(createObj));
-    window.localStorage.setItem("catObjectY", JSON.stringify(protoWordsArray));
+  //  window.localStorage.setItem("catObjectY", JSON.stringify(protoWordsArray));
     });
   
 
@@ -2433,9 +2539,14 @@ function initCreateModal() {
 
 
   function catSelected(){
-    let catSelectedEl = document.getElementById("selectCategory")
+    const modal = document.getElementById("create-yours");
+    const modal2 = document.getElementById("create-modal");
+
+    let catSelectedEl = document.getElementById("select-category")
     console.log("Category selected = " + catSelectedEl.value);
     displayItemsToDelete(catSelectedEl.value);
+    modal.classList.toggle("hidden")
+    modal2.classList.toggle("hidden")
   }
    
 
@@ -2446,6 +2557,7 @@ function displayItemsToDelete(itemToDel) {
 
   let yourCategoryEl = document.getElementById("custom")
   const createsEl = document.querySelector(".creates")
+  globalItemToDel = itemToDel;
 
   console.log("display item " + protoWordsArray[itemToDel].cat + " items prior to delete")
 

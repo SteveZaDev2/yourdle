@@ -32,6 +32,7 @@
     <!--      <i class="fa fa-cog" id="reveal-letter" aria-hidden="true"></i>
           <div class="toggle"><i class="fa fa-volume-up" id="aud-icon"></i></div> -->
           <i class="fa fa-plus" id="create"></i>
+          <i class="fa fa-minus" id="delete-category"></i>
        <i class="fa fa-volume-up" id="aud-icon"></i>
           <i class="fa fa-bars" id="categories" aria-hidden="true"></i>
           <i id="randcat" class="fas fa-search"></i>
@@ -269,13 +270,15 @@
     <div class="modal-content">
       <div class="modal-header">
         <h2>YOURDLE</h2>
-       <span class="close" id="close-create">&times;</span>
+       <span class="close" id="close-create-del">&times;</span>
       </div>
 
         <div class="create-container">
     
           <h3><strong>Category</strong>: <span id="new-category"></span></h3>
-    
+          <button id="add-btn">Add the Category</button>
+          <button id="del-btn">Delete the Category</button>
+        
          </div>
 
         <div class="creates">
@@ -292,15 +295,16 @@
 
 
     <div id="form-input"> 
-      <select id="selectCategory" onchange="catSelected()">
-        <option>Select Category to Delete</option>
-      </select>
+
       <div id="custom1">
-      <label for="custom"><h5>
-        Name of Your Category:
+      <label for="custom" id="category-label"><h5>
+        Name of Your New Category:
       </h5></label>
       <input type="text" id="custom" name="custom" maxlength="25" placeholder="Your Category Name"> 
     </div>
+    <select id="select-category" onchange="catSelected()">
+      <option>Select Category to Delete</option>
+    </select>
       <hr></hr>
     </div> 
 
@@ -309,8 +313,6 @@
 
 
     <div id="button-collection">
-      <button id="add-btn">Add</button>
-      <button id="del-btn">Delete</button>
       <button id="sub-btn">Submit</button>
       <button id="cancel-btn">Cancel</button>
     </div>

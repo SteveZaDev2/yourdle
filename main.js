@@ -2533,6 +2533,7 @@ function initCreateModal() {
     // When the user clicks on the cancel button, toggle hidden class
     cancelEl.addEventListener("click", function () {
       modal.classList.toggle("hidden")
+      messageContainerEl.innerText = "";
     });
 }  // END OF INITCREATEMODAL
 

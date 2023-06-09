@@ -829,7 +829,7 @@ hr{
 #create-yours{
   background-color: rgba(8, 68, 52, .88);
   width: 90vw;
-  min-height: 20vh;
+  min-height: 28vh;
   max-height: 60vh;
   max-width: 500px;
   position: relative;
@@ -884,4 +884,8 @@ textarea {
 
 #select-category{
   margin-bottom: 5px;
+}
+
+textarea{
+  height: 90px;
 }

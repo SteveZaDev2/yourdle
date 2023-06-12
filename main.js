@@ -28,10 +28,10 @@ const audios=[ {name: "default",
               link: "./auds/dream.mp3",
               vol: .25
             },
-                {name: "Classical Gas",
-                link: "./auds/classicalgas.m4a",
-                vol: .25
-              }
+            {name: "Ambition",
+            link: "./auds/mixkitdrivingambition.mp3",
+            vol: .25
+          }
              ]
 
 let helpText = `YOURDLE accepts comma delimited input that YOU provide and turns it into YOUR own personal Wordle game. Start the process by clicking the "+" on the top menu. Type in a Category name that describes your items. Then go to the large input field and begin typing each item. Letters and spaces up to a max of 35 are the only valid characters. A comma indicates the end of your item and can then be followed by your next item. Press "Submit" and a window will display all of the items you are about to add. If things look good, click "Add the Category". Your category will be created. An even better way to add items is to simply type them in a text editor such as Notepad, making sure to separate each with a comma. When done entering them in Notepad, copy all of them and paste them into the text field provided here. Categories that you have added can also be deleted. Click the "-" item on the top menu and then select a category to remove.              
@@ -2429,7 +2429,7 @@ function initCreateModal() {
 */
 
 
-    // When the user clicks on the submit button, populate the modal with the info along with a buttom to pressed if // the user is ok with it and wants to add the category  
+    // When the user clicks on the submit button, populate the modal with the info along with a button to press if // the user is ok with it and wants to add the category  
     submitEl.addEventListener("click", function () {
 
       let yourCategoryEl = document.getElementById("custom")
@@ -2493,8 +2493,9 @@ function initCreateModal() {
     }
     for(var i = 0; i < createdArray.length; i++)
     {
-
-      let trimmedString = createdArray[i].trim()
+      let replacedString = removeNonAlpha(createdArray[i])
+      let trimmedStringTemp = replacedString.trim()   // trim spaces from front and back
+      trimmedString = trimmedStringTemp.slice(0,35)
       trimmedString.toUpperCase
       createObj.items.push(trimmedString);
        console.log("item " + i + " = " + trimmedString);
@@ -2592,4 +2593,10 @@ for(var i = 0; i <  protoWordsArray[itemToDel].items.length; i++)
 }
 
 createsEl.style.display = "block";
+}
+
+
+
+function removeNonAlpha(string) {
+  return string.replace(/[^a-z ]/gi, '');
 }

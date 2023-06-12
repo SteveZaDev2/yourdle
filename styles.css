@@ -880,6 +880,7 @@ textarea {
 
 #custom{
   margin-bottom: 5px;
+  height: 1.6rem;
 }
 
 #select-category{
@@ -888,4 +889,19 @@ textarea {
 
 textarea{
   height: 90px;
+}
+
+#add-btn,
+#del-btn {
+  height: 2rem;
+  background-color: rgb(255, 215, 0, .65);
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+#add-btn:hover,
+#del-btn:hover{
+  background-color: rgb(255, 215, 0, .95);
+  cursor: pointer;
+
 }
